@@ -61,6 +61,8 @@ const infoRouter = require('./routes/info');
 const ms = require('ms');
 const aiProxyHandler = require('./ai/aiProxyHandler');
 const runtimeConfigManager = require('./../../Common/sources/runtimeConfigManager');
+const regulatorySearchHandler = require('./regulatorySearchHandler');
+const csrWriterHandler = require('./csrWriterHandler');
 
 const cfgWopiEnable = config.get('wopi.enable');
 const cfgWopiDummyEnable = config.get('wopi.dummy.enable');
@@ -265,6 +267,37 @@ docsCoServer.install(server, app, () => {
   app.get('/robots.txt', (req, res) => {
     res.setHeader('Content-Type', 'plain/text');
     res.send('User-agent: *\nDisallow: /');
+  });
+
+  // Regulatory Search API endpoint
+  app.post('/api/regulatory-search', (req, res) => {
+    if (regulatorySearchHandler.handleCors(req, res)) return;
+    regulatorySearchHandler.handleRegulatorySearch(req, res);
+  });
+  app.options('/api/regulatory-search', (req, res) => {
+    regulatorySearchHandler.handleCors(req, res);
+  });
+
+  // CSR Writer API endpoints (Phase 3)
+  // POST /api/csr-writer/index - Index Protocol and SAP documents
+  app.post('/api/csr-writer/index', (req, res) => {
+    csrWriterHandler.handleIndex(req, res);
+  });
+  // POST /api/csr-writer/query - Query indexed documents (SSE stream)
+  app.post('/api/csr-writer/query', (req, res) => {
+    csrWriterHandler.handleQuery(req, res);
+  });
+  // GET /api/csr-writer/status/:sessionId - Get session status
+  app.get('/api/csr-writer/status/:sessionId', (req, res) => {
+    csrWriterHandler.handleStatus(req, res, req.params.sessionId);
+  });
+  // DELETE /api/csr-writer/session/:sessionId - Delete session
+  app.delete('/api/csr-writer/session/:sessionId', (req, res) => {
+    csrWriterHandler.handleDeleteSession(req, res, req.params.sessionId);
+  });
+  // OPTIONS for CORS preflight
+  app.options('/api/csr-writer/*', (req, res) => {
+    csrWriterHandler.handleCors(req, res);
   });
 
   app.post('/docbuilder', utils.checkClientIp, rawFileParser, (req, res) => {

@@ -2,6 +2,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 	margin: 0px !important;
+	background: linear-gradient(135deg, #E6E6FA 0%, #DCD0FF 50%, #C8A2C8 100%);
 }
 
 p {
@@ -301,6 +302,16 @@ input {
 	line-height: 16px;
 	padding: 4px 8px;
 	margin: 2px;
+	background: linear-gradient(135deg, #DCD0FF 0%, #C8A2C8 100%);
+	border: 1px solid #9370DB;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.welcome_button:hover {
+	background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
+	color: #fff;
+	transform: translateY(-1px);
 }
 
 .user_message {
@@ -309,9 +320,9 @@ input {
 }
 
 .user_message .message_content {
-	background-color: #fff;
-	background-color: var(--background-toolbar);
-	/* background-color: var(--highlight-button-hover); */
+	background: linear-gradient(135deg, #9370DB 0%, #8A2BE2 100%);
+	color: #fff;
+	border-radius: 12px;
 }
 
 .tokens_info {
@@ -362,12 +373,11 @@ input {
 
 #attached_text_wrapper {
 	padding: 6px 8px;
-	background-color: #fff;
-	background-color: var(--background-toolbar);
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	border: 1px solid #e1e1e1;
-	border: 1px solid var(--border-regular-control);
+	background: linear-gradient(135deg, #F5F0FF 0%, #E6E6FA 100%);
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	border: 2px solid #C8A2C8;
+	border-bottom: none;
 	margin-bottom: -1px;
 	display: flex;
 	justify-content: space-between;
@@ -396,15 +406,14 @@ input {
 	display: flex;
 	background-color: #fff;
 	background-color: var(--background-normal);
-	border-radius: 2px;
-	border: 1px solid #e1e1e1;
-	border: 1px solid var(--border-regular-control);
+	border-radius: 12px;
+	border: 2px solid #C8A2C8;
 	position: relative;
 }
 
 #input_message_wrapper.focused {
-	border-color: #4A87E7;
-	border-color: var(--border-control-focus);
+	border-color: #9370DB;
+	box-shadow: 0 0 8px rgba(147, 112, 219, 0.4);
 }
 
 #input_message {

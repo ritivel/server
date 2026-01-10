@@ -30,7 +30,7 @@
         "OpenAI": {
             "name": "OpenAI",
             "url": "https://api.openai.com",
-            "key": "OPEN-AI-KEY",
+            "key": "",
             "models": [
                 {
                     "id": "chatgpt-4o-latest",
