@@ -15,14 +15,14 @@ const http = require('http');
 const crypto = require('crypto');
 const { URL } = require('url');
 
-// Configuration from Searchbot.txt
+// Configuration - all secrets must be provided via environment variables
 const CONFIG = {
-  OPENSEARCH_ENDPOINT: process.env.OPENSEARCH_ENDPOINT || 'https://7tbmk7oto03rovtmipb.us-east-1.aoss.amazonaws.com',
+  OPENSEARCH_ENDPOINT: process.env.OPENSEARCH_ENDPOINT || 'https://your-opensearch-endpoint.aoss.amazonaws.com',
   OPENSEARCH_INDEX: process.env.OPENSEARCH_INDEX || 'regulatory-chunks',
   AWS_REGION: process.env.AWS_REGION || 'us-east-1',
-  OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
-  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || '',
-  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || ''
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY
 };
 
 /**

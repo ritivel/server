@@ -68,7 +68,7 @@ function registerButtons(window, undefined)
 			icons: "resources/icons/%theme-name%(theme-default|theme-system|theme-classic-light)/%theme-type%(light|dark)/ask-ai%state%(normal|active)%scale%(default).png",
 			isModal : false,
 			isCanDocked: true,
-			type: window.localStorage.getItem("onlyoffice_ai_chat_placement") || "window",
+			type: window.localStorage.getItem("onlyoffice_ai_chat_placement") || "panelRight",
 			EditorsSupport : ["word", "slide", "cell", "pdf"],
 			size : [ 400, 400 ]
 		};
