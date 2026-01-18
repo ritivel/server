@@ -2,7 +2,7 @@
   position: relative;
   width: 256px;
   height: 100vh;
-  background: #f9f9f9;
+  background: linear-gradient(180deg, #F5F3F9 0%, #EDE8F5 100%);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -40,7 +40,7 @@
     padding-left: 32px;
     padding-top: 32px;
     padding-right: 16px;
-    background: #f9f9f9;
+    background: transparent;
   }
 
   &__content {
@@ -75,8 +75,8 @@
   }
 
   &__logo {
-    width: 164px;
-    height: 29px;
+    width: 140px;
+    height: 32px;
   }
 
   &__title {

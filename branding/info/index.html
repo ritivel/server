@@ -1,9 +1,10 @@
 <!doctype html>
 <html>
   <head>
-    <title>ONLYOFFICE</title>
+    <title>Ritivel</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" />
+    <link href="img/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 
     <style type="text/css">
@@ -17,7 +18,7 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Segoe UI', system-ui, sans-serif;
         font-size: 12px;
         color: #333333;
         display: flex;
@@ -25,17 +26,23 @@
       }
 
       header {
-        background: #3d4a6b;
+        background: linear-gradient(135deg, #9370DB 0%, #B8A9D3 50%, #E6E6FA 100%);
         height: 44px;
         margin: 0 auto;
         min-width: 600px;
         width: 100%;
         padding-top: 4px;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
       }
 
-      header img {
-        margin: 8px 0 0 24px;
+      header .logo-text {
+        margin-left: 24px;
+        font-size: 20px;
+        font-weight: 600;
+        color: white;
+        letter-spacing: 0.5px;
       }
 
       table {
@@ -68,7 +75,7 @@
       .td-caption {
         font-size: 16px;
         padding-bottom: 4px;
-        background: #efefef;
+        background: #F5F3F9;
         border-radius: 1px;
       }
 
@@ -109,10 +116,17 @@
         padding: 0;
         font-size: 14px;
         cursor: pointer;
+        color: #666;
+        transition: color 0.2s;
+      }
+
+      .td-link:hover {
+        color: #9370DB;
       }
 
       .td-link.current {
         font-weight: 700;
+        color: #9370DB;
       }
 
       .main-panel {
@@ -161,6 +175,16 @@
         font-weight: normal;
         margin-top: 5px;
       }
+
+      #status-err-help a {
+        color: #9370DB;
+        text-decoration: none;
+      }
+
+      #status-err-help a:hover {
+        text-decoration: underline;
+      }
+
       .hidden {
         display: none !important;
         visibility: hidden;
@@ -185,11 +209,21 @@
         height: 100%;
         border-left: 1px dotted #333333;
       }
+
+      a {
+        color: #9370DB;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #7B68EE;
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
     <header>
-      <img src="img/logo.png" alt="ONLYOFFICE" />
+      <img src="img/logo.svg" alt="Ritivel" style="height: 24px; margin-top: 2px;" />
     </header>
     <div style="overflow: auto; height: 100%; flex-grow: 1">
       <div class="main-panel">
@@ -249,7 +283,7 @@
             <div>Something went wrong during installation</div>
             <div id="status-err-help">
               Make sure that you have followed the
-              <a href="http://helpcenter.onlyoffice.com/server/document.aspx" target="_blank">installation instructions</a>
+              <a href="https://www.ritivel.com/docs/installation" target="_blank">installation instructions</a>
             </div>
           </div>
         </div>

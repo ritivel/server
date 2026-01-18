@@ -34,7 +34,7 @@
 }
 
 .addButton {
-  background: #ff6f3d;
+  background: linear-gradient(135deg, #9370DB 0%, #B8A9D3 100%);
   color: #ffffff;
   border: none;
   height: 48px;
@@ -49,14 +49,14 @@
   text-align: center;
   text-transform: capitalize;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover:not(:disabled) {
-    background: #e55a2b;
+    background: linear-gradient(135deg, #7B68EE 0%, #9370DB 100%);
   }
 
   &:disabled {

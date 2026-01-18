@@ -3,7 +3,7 @@ import {generateDocServerToken} from '../../api';
 import {getBasename, getDocServicePath} from '../../utils/paths';
 
 /**
- * Preview page component with ONLYOFFICE Document Editor
+ * Preview page component with Ritivel Document Editor
  * @param {Object} props - Component props
  * @returns {JSX.Element} Preview component
  */
@@ -14,7 +14,7 @@ function Preview(props) {
   const editorRef = useRef(null);
 
   /**
-   * Initialize the ONLYOFFICE editor
+   * Initialize the Ritivel editor
    */
   const initEditor = useCallback(async () => {
     const userName = user?.email?.split('@')[0] || 'admin';
@@ -76,7 +76,7 @@ function Preview(props) {
   }, [user]);
 
   useEffect(() => {
-    // Load ONLYOFFICE API script
+    // Load Ritivel API script
     const script = document.createElement('script');
     script.src = `${getDocServicePath()}/web-apps/apps/api/documents/api.js`;
     script.async = true;
@@ -102,7 +102,7 @@ function Preview(props) {
   useEffect(() => {
     if (editorConfig && window.DocsAPI && editorRef.current) {
       try {
-        window.docEditor = new window.DocsAPI.DocEditor('onlyoffice-editor', editorConfig);
+        window.docEditor = new window.DocsAPI.DocEditor('ritivel-editor', editorConfig);
       } catch (error) {
         console.error('Error initializing editor:', error);
       }
@@ -111,7 +111,7 @@ function Preview(props) {
 
   return (
     <div style={{height: '100%', margin: 0}}>
-      <div id='onlyoffice-editor' ref={editorRef} style={{height: '100%', width: '100%'}} />
+      <div id='ritivel-editor' ref={editorRef} style={{height: '100%', width: '100%'}} />
     </div>
   );
 }

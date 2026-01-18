@@ -216,47 +216,105 @@ function streamOpenAI(messages, onChunk) {
 }
 
 /**
- * Generate embeddings using OpenAI
+ * Generate embeddings using AWS Bedrock Titan
  */
 async function generateEmbedding(text) {
-  const postData = JSON.stringify({
-    model: 'text-embedding-3-small',
-    input: text,
-    dimensions: 1024  // Match your index dimensions
+  const modelId = 'amazon.titan-embed-text-v2:0';
+  const host = `bedrock-runtime.${CONFIG.AWS_REGION}.amazonaws.com`;
+  // URL-encode the model ID for the HTTP request path
+  const encodedModelId = encodeURIComponent(modelId);
+  const requestPath = `/model/${encodedModelId}/invoke`;
+  // For canonical request, AWS requires double URL-encoding of special chars
+  const canonicalPath = `/model/${encodeURIComponent(encodedModelId)}/invoke`;
+  
+  const body = JSON.stringify({
+    inputText: text,
+    dimensions: 1024,  // Match your index dimensions
+    normalize: true
   });
 
-  const options = {
-    hostname: 'api.openai.com',
-    port: 443,
-    path: '/v1/embeddings',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`,
-      'Content-Length': Buffer.byteLength(postData)
-    }
-  };
-
   return new Promise((resolve, reject) => {
+    const datetime = new Date().toISOString().replace(/[:-]|\.\d{3}/g, '');
+    const date = datetime.substring(0, 8);
+    const service = 'bedrock';
+    
+    const bodyHash = crypto.createHash('sha256').update(body).digest('hex');
+    
+    const headers = {
+      'content-type': 'application/json',
+      'host': host,
+      'x-amz-content-sha256': bodyHash,
+      'x-amz-date': datetime
+    };
+
+    // Create canonical request - path must be double URI-encoded for signing
+    const sortedHeaderKeys = Object.keys(headers).sort();
+    const canonicalHeaders = sortedHeaderKeys
+      .map(key => `${key.toLowerCase()}:${headers[key].trim()}`)
+      .join('\n');
+    const signedHeaders = sortedHeaderKeys.map(k => k.toLowerCase()).join(';');
+    
+    const canonicalRequest = [
+      'POST',
+      canonicalPath,  // Double URI-encoded for signing
+      '',    // Empty query string
+      canonicalHeaders + '\n',
+      signedHeaders,
+      bodyHash
+    ].join('\n');
+
+    // Create string to sign
+    const credentialScope = `${date}/${CONFIG.AWS_REGION}/${service}/aws4_request`;
+    const hashedCanonicalRequest = crypto.createHash('sha256').update(canonicalRequest).digest('hex');
+    
+    const stringToSign = [
+      'AWS4-HMAC-SHA256',
+      datetime,
+      credentialScope,
+      hashedCanonicalRequest
+    ].join('\n');
+
+    // Calculate signature
+    const kDate = crypto.createHmac('sha256', 'AWS4' + CONFIG.AWS_SECRET_ACCESS_KEY).update(date).digest();
+    const kRegion = crypto.createHmac('sha256', kDate).update(CONFIG.AWS_REGION).digest();
+    const kService = crypto.createHmac('sha256', kRegion).update(service).digest();
+    const kSigning = crypto.createHmac('sha256', kService).update('aws4_request').digest();
+    const signature = crypto.createHmac('sha256', kSigning).update(stringToSign).digest('hex');
+
+    headers['authorization'] = `AWS4-HMAC-SHA256 Credential=${CONFIG.AWS_ACCESS_KEY_ID}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
+    headers['content-length'] = Buffer.byteLength(body);
+
+    const options = {
+      hostname: host,
+      port: 443,
+      path: requestPath,  // Single-encoded for actual HTTP request
+      method: 'POST',
+      headers: headers
+    };
+
     const req = https.request(options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         try {
           const response = JSON.parse(data);
-          if (response.data?.[0]?.embedding) {
-            resolve(response.data[0].embedding);
+          if (response.embedding) {
+            resolve(response.embedding);
           } else {
-            console.error('Embedding error:', data);
-            reject(new Error('Failed to generate embedding'));
+            console.error('Titan Embedding error:', data);
+            reject(new Error('Failed to generate Titan embedding'));
           }
         } catch (e) {
+          console.error('Titan Embedding parse error:', e, data);
           reject(e);
         }
       });
     });
-    req.on('error', reject);
-    req.write(postData);
+    req.on('error', (e) => {
+      console.error('Titan Embedding request error:', e);
+      reject(e);
+    });
+    req.write(body);
     req.end();
   });
 }

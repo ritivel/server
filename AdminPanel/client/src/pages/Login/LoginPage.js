@@ -37,14 +37,14 @@ export default function Login() {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginCard}>
-        <h1 className={styles.title}>ONLYOFFICE Admin Panel</h1>
+        <h1 className={styles.title}>Ritivel Admin Panel</h1>
         <p className={styles.subtitle}>Enter your password to access the admin panel</p>
         <div className={styles.descriptionContainer}>
           <p className={styles.description}>The session is valid for 60 minutes.</p>
           <p className={styles.description}>
             Need to reset your password? See{' '}
             <a
-              href='https://helpcenter.onlyoffice.com/docs/installation/docs-admin-panel.aspx#passwordresetrecovery_block'
+              href='https://www.ritivel.com/support'
               target='_blank'
               rel='noopener noreferrer'
             >

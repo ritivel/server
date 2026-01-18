@@ -9,8 +9,8 @@
     left: 0;
     right: 0;
     height: 56px;
-    background: #f9f9f9;
-    border-bottom: 1px solid #e2e2e2;
+    background: linear-gradient(90deg, #F5F3F9 0%, #EDE8F5 100%);
+    border-bottom: 1px solid #D8BFD8;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -19,7 +19,7 @@
   }
 
   .mobileHeader--open {
-    background: #ececec;
+    background: linear-gradient(90deg, #EDE8F5 0%, #E6E6FA 100%);
   }
 
   .burger {
