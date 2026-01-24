@@ -12,6 +12,8 @@
 
 'use strict';
 
+require('dotenv').config();
+
 const https = require('https');
 const http = require('http');
 const crypto = require('crypto');

@@ -1,4 +1,7 @@
 .idea/
+.vscode/
+.DS_Store
+Thumbs.db
 Common/config/local.json
 license.lic
 App_Data/
